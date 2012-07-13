@@ -1,9 +1,8 @@
 Changelog
 =========
 
-0.1 (2011-12-15)
+0.1 (2012-12-13)
 ----------------
 
-- Fetches count of related photos and a portrait image using Flickr API.
-- Returns that data as JSON for use in a portlet on place pages.
+- Initial release.
 

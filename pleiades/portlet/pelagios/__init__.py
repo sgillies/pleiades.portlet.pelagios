@@ -1,5 +1,5 @@
 from zope.i18nmessageid import MessageFactory
-FlickrPortletMessageFactory = MessageFactory('pleiades.portlet.flickr')
+FlickrPortletMessageFactory = MessageFactory('pleiades.portlet.pelagios')
 
 
 def initialize(context):

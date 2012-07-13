@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<portlets>
+
+ <!-- Portlet type registrations -->
+
+ <portlet
+   addview="pleiades.portlet.pelagios.PelagiosPortlet"
+   title="Related Pelagios Content"
+   description="Synopsize related Pelagios content"
+   />
+
+</portlets>

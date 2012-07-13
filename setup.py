@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.4.1'
+version = '0.1'
 
-setup(name='pleiades.portlet.flickr',
+setup(name='pleiades.portlet.pelagios',
       version=version,
-      description="Synopsize related Flickr content",
+      description="Synopsize related Pelagios content",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
