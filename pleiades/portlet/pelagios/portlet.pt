@@ -1,54 +1,71 @@
 <dl class="portlet portletExamplePortlet"
-    i18n:domain="pleiades.portlet.flickr">
+    i18n:domain="pleiades.portlet.pelagios">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        Photos from Flickr
+        Related Content from Pelagios
         <span class="portletTopRight"></span>
     </dt>
 
+    <div id="pelagios-datasets-template" style="display:none">
+      <dd class="portletItem"></dd>
+      <h6 class="pelagios-dataset">Dataset</h6>
+      <span class="pelagios-subset">Subset</span>
+      <a class="link" href="#">(N)</a>
+    </div>
+    <div id="pelagios-loading">
+      <p id="pelagios-loading-status">Loading...</p>
+      <p id="pelagios-loading-tip" style="display:none">This place is unknown to Pelagios.</p>
+    </div>
+    <div id="pelagios-datasets" style="display:none">
+    </div>
     <div>
-      <a id="flickr-portrait-link" href="" style="display:none"><img width="180" id="flickr-portrait" src="" title=""/></a>
-      <p id="flickr-portrait-attribution" style="display:none"><span></span> from the  <a href="http://www.flickr.com/groups/pleiades-places/pool/">Pleiades Places pool on Flickr</a></p>
-      <p id="flickr-portrait-loading">Loading...</p>
-      <p id="flickr-portrait-tip" style="display:none">This place has no portrait photo. One from the list of related photos could be suggested for the <a href="http://flickr.com/groups/1876758@N22/">Pleiades Places group on Flickr</a>.</p>
-      <p id="flickr-photos-link"><a id="flickr-photos-link" href="#"><span id="flickr-photos-count">0</span> other related photos...</a></p>
+      <p><a href="http://pelagios.dme.ait.ac.at/api/datasets">Pelagios Datasets</a></p>
     </div>
 
 <script type="text/javascript">
 <!--
   
-  function queryFlickr() {
+  function queryPelagios() {
     jq.ajax({
-      "url": document.baseURI + "/@@flickr-tagged",
+      "url": document.baseURI + "/@@pelagios-tagged",
       "success": function (data) {
-        jq("#flickr-photos-count").html(data['related']['total']);
-        jq("#flickr-photos-link a").attr("href", data['related']['url']);
-        if (data['portrait'] == null) {
-          jq("#flickr-portrait-loading").hide();
-          jq("#flickr-portrait-tip").show();
+        for (i=0; i<data.annotations.length; i++) {
+          var a = data.annotations[i];
+          var p = jq("#pelagios-datasets-template dd").clone();
+          var h = jq("#pelagios-datasets-template h6").clone();
+          var d = jq("#pelagios-datasets");
+          jq(h).text(a[1]);
+          jq(p).append(h);
+          for (j=0; j<a[2].length; j++) {
+            var label = a[2][j][1];
+            var s = jq("#pelagios-datasets-template span").clone();
+            if (j==0) {
+              jq(s).text(label + " ");
+            }
+            else {
+              jq(s).text("; " + label + " ");
+            }
+            var l = jq("#pelagios-datasets-template a").clone();
+            jq(l).attr("href", a[2][j][2]);
+            jq(l).text("(" + a[2][j][0] + ")");
+            jq(s).append(l);
+            jq(p).append(s);
+          }
+          jq(p).append("<br>");
+          jq(d).append(p);
         }
-        else {
-          jq("#flickr-portrait").attr("src", data['portrait']['img']);
-          jq("#flickr-portrait").attr("title", data['portrait']['title']);
-          jq("#flickr-portrait-link").attr("href", data['portrait']['page']);
-          jq("#flickr-portrait-attribution").html(data['portrait']['title']);
-          jq("#flickr-portrait-loading").hide();
-          jq("#flickr-portrait-link").show();
-          jq("#flickr-portrait-attribution").show();
-        }
+        jq("#pelagios-loading").hide();
+        jq("#pelagios-datasets").show();
       },
       "error": function (req, status, err) {
-        jq("#flickr-portrait-loading").hide();
-        jq("#flickr-portrait-attribution").hide();
-        jq("#flickr-photos-link").hide();
-        jq("#flickr-portrait-tip").html("Photo API has not responded. Reload the page after a minute or two.");
-        jq("#flickr-portrait-tip").show();
+        jq("#pelagios-loading-status").hide();
+        jq("#pelagios-loading-tip").show();
       }
     });
   }
 
-  jq(document).ready(queryFlickr);
+  jq(document).ready(queryPelagios);
 
   -->
 </script>

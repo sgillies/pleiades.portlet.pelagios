@@ -15,7 +15,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 #from pleiades.portlet.flickr import ExamplePortletMessageFactory as _
 
 
-class IFlickrPortlet(IPortletDataProvider):
+class IPelagiosPortlet(IPortletDataProvider):
     """A portlet
 
     It inherits from IPortletDataProvider because for this portlet, the
@@ -40,7 +40,7 @@ class Assignment(base.Assignment):
     with columns.
     """
 
-    implements(IFlickrPortlet)
+    implements(IPelagiosPortlet)
 
     # TODO: Set default values for the configurable parameters here
 
@@ -58,7 +58,7 @@ class Assignment(base.Assignment):
         """This property is used to give the title of the portlet in the
         "manage portlets" screen.
         """
-        return "Related Flickr Content"
+        return "Related Pelagios Content"
 
 
 class Renderer(base.Renderer):
@@ -79,7 +79,7 @@ class AddForm(base.AddForm):
     zope.formlib which fields to display. The create() method actually
     constructs the assignment that is being added.
     """
-    form_fields = form.Fields(IFlickrPortlet)
+    form_fields = form.Fields(IPelagiosPortlet)
 
     def create(self, data):
         return Assignment(**data)

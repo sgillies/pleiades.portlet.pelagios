@@ -36,19 +36,19 @@ class RelatedPelagiosJson(BrowserView):
         if pid is not None:
             try:
                 annotations = client.annotations(pid)
+                self.request.response.setStatus(200)
             except client.PelagiosAPIError, e:
-                annotations = None
+                annotations = []
                 log.exception("Pelagios API Error: %s", str(e))
+                self.request.response.setStatus(500)
         else:
-            annotations = None
+            annotations = []
+            self.request.response.setStatus(404)
 
         data = dict(
             pid=pid,
-            purl="http://pleiades.stoa.org/places/" + pid or ""
-            datasets_home="http://pelagios.dme.ait.ac.at/api/datasets",
             annotations=annotations )
         
-        self.request.response.setStatus(200)
         self.request.response.setHeader('Content-Type', 'application/json')
         return simplejson.dumps(data)
 
